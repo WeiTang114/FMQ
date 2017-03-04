@@ -20,11 +20,26 @@ class Queue():
         if self.debug:
             print 'del'
 
-    def put(self, obj):
-        self.mpq.put(obj)
+    def put(self, item):
+        """
+        TODO: maybe support "block" and "timeout"
+        """
+        self.mpq.put(item)
 
     def get(self):
         return self.qq.get()
+
+    def qsize(self):
+        """
+        can be 2*(maxsize), because this is the sum of qq.size and mpq.size
+        """
+        return self.qq.qsize() + self.mpq.qsize()
+
+    def empty(self):
+        return self.qq.empty() and self.mpq.empty()
+
+    def full(self):
+        return self.qq.full() and self.mpq.full()
 
     # static for not referencing "self" strongly
     # but only weakly-referencing "me"
