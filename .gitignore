@@ -1,0 +1,11 @@
+*.pyc
+*.swo
+*.swn
+*.swp
+
+
+# setuptools distribution folder
+/dist/
+
+# python egg metadata
+/*.egg-info
