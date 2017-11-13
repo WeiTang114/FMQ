@@ -89,6 +89,28 @@ for i in range(5):
 # See "Known Issues: main thread exits before queue object is deleted" section for more details.
 ```
 
+Output:
+
+```
+ $ python2 test_speed.py                                                                                                                            [1:19:08]
+157286544 bytes, 153600kb, 150mb
+mp get() a time 1.44557714462
+mp get() a time 2.59632015228
+mp get() a time 0.465645074844
+mp get() a time 1.47132301331
+mp get() a time 0.970722913742
+fmq get() a time 0.0138399600983
+fmq get() a time 0.00159907341003
+fmq get() a time 0.00137996673584
+fmq get() a time 0.00151395797729
+fmq get() a time 0.00147581100464
+Traceback (most recent call last):
+  File "test_speed.py", line 30, in <module>
+    q2.close()
+AttributeError: Queue instance has no attribute 'close'
+EOFError
+```
+
 # Know Issues
 
 ## Main thread exits before queue object is deleted
