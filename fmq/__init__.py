@@ -1,33 +1,49 @@
 import multiprocessing as mp
-import Queue as Queue_
+import queue as queue_
 from threading import Thread
 import _multiprocessing as _mp
 import weakref
 
-class Queue():
+
+class Queue(object):
     def __init__(self, maxsize=0, debug=False):
         if maxsize <= 0:
             # same as mp.Queue
             maxsize = _mp.SemLock.SEM_VALUE_MAX
 
         self.mpq = mp.Queue(maxsize=maxsize)
-        self.qq = Queue_.Queue(maxsize=maxsize)
+        self.qq = queue_.Queue(maxsize=maxsize)
         self.maxsize = maxsize
         Queue._steal_daemon(self.mpq, self.qq, self)
         self.debug = debug
 
     def __del__(self):
         if self.debug:
-            print 'del'
+            print('del')
 
-    def put(self, item):
+    def put(self, item, block=True, timeout=None):
         """
-        TODO: maybe support "block" and "timeout"
+        :param item:
+        :param bool block:
+        :param int timeout:
+        :return:
         """
-        self.mpq.put(item)
+        self.mpq.put(item, block, timeout)
 
-    def get(self):
-        return self.qq.get()
+    def put_nowait(self, item):
+        self.mpq.put_nowait(item)
+
+    def get(self, block=True, timeout=None):
+        """
+
+        :param bool block:
+        :param int timeout:
+        :return:
+        """
+        return self.qq.get(block, timeout)
+
+    def get_nowait(self):
+        return self.qq.get_nowait()
 
     def qsize(self):
         """
@@ -68,5 +84,3 @@ class Queue():
         stealer = Thread(target=steal, args=(srcq, dstq, me1,))
         stealer.daemon = True
         stealer.start()
-
-
