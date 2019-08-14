@@ -9,3 +9,5 @@
 
 # python egg metadata
 /*.egg-info
+
+*.idea
